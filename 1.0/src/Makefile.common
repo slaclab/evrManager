@@ -1,0 +1,46 @@
+### NOTE: SETTABLE_CONFIG
+KERNEL_MODULE_EVRMA=../../../evrmaDriver/src
+
+SRC_DIR := ../src
+
+#CC=gcc
+
+CC=$(XCROSS_HOME)g++
+
+CXXFLAGS := -Wall -fPIC -O3
+CPPFLAGS := -I$(KERNEL_MODULE_EVRMA)
+CPPFLAGS += -I$(SRC_DIR)
+
+LDFLAGS +=  -L.
+LDLIBS  +=  -lstdc++ -lpthread -lrt -lm
+
+CLEANEXTS   = o a d
+
+SRC =     evrManagerMain.cpp
+
+EVR_MANAGER := evrManager
+INSTALL_BIN_DIR  = bin
+
+# Default target
+.PHONY:	all
+all:	$(EVR_MANAGER)
+
+$(EVR_MANAGER): $(patsubst %.cpp,%.o,$(SRC))
+	@$(CC) $(patsubst %.cpp,%.o,$(SRC)) -o $(EVR_MANAGER)
+	@echo "  LD   " $@
+
+.PHONY:	install
+install:
+	mkdir -p $(INSTALL_BIN_DIR)
+	cp -p $(EVR_MANAGER) $(INSTALL_BIN_DIR)
+
+.PHONY:	clean 
+clean:
+	for file in $(CLEANEXTS); do rm -f *.$$file; done
+	-rm $(EVR_MANAGER)
+
+.SUFFIXES: .cpp .o
+
+%.o : $(SRC_DIR)/%.cpp  
+	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) -MD -o $@ $<
+
