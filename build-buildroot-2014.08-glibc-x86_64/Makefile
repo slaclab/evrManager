@@ -1,5 +1,5 @@
 ### NOTE: SETTABLE_CONFIG
-INSTALL_LOCATION ?= ../buildroot-2014.08-x86_64
+INSTALL_LOCATION ?= ../buildroot-2014.08-glibc-x86_64
 
 # Makefile for linuxRT:
 # Location of BuildRoot home for X86_64 architecture:
