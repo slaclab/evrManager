@@ -1,9 +1,9 @@
 ### NOTE: SETTABLE_CONFIG
-KERNEL_MODULE_EVRMA=../../../evrmaDriver
+KERNEL_MODULE_EVRMA ?= ../../../evrmaDriver
+
+XCROSS_HOME ?= 
 
 SRC_DIR := ../src
-
-#CC=gcc
 
 CC=$(XCROSS_HOME)g++
 
@@ -31,8 +31,13 @@ $(EVR_MANAGER): $(patsubst %.cpp,%.o,$(SRC))
 
 .PHONY:	install
 install:
-	mkdir -p $(INSTALL_BIN_DIR)
-	cp -p $(EVR_MANAGER) $(INSTALL_BIN_DIR)
+	mkdir -p $(INSTALL_LOCATION)/$(INSTALL_BIN_DIR)
+	cp -p $(EVR_MANAGER) $(INSTALL_LOCATION)/$(INSTALL_BIN_DIR)
+
+.PHONY:	uninstall
+uninstall:
+	-cd $(INSTALL_LOCATION)/$(INSTALL_BIN_DIR); \
+		rm $(EVR_MANAGER)
 
 .PHONY:	clean 
 clean:
