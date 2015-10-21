@@ -1,5 +1,5 @@
 ### NOTE: SETTABLE_CONFIG
-KERNEL_MODULE_EVRMA ?= ../../evrmaDriver
+KERNEL_MODULE_EVRMA ?= ../../../evrmaDriver/master
 
 XCROSS_HOME ?= 
 
