@@ -72,13 +72,13 @@ public:
 			
 			ioRegion.length = mngdev_config.io_memory_length;
 			
-			ADBG("mmaping: %d", ioRegion.length);
+// 			ADBG("mmaping: %d", ioRegion.length);
 			
 			ioRegion.ptr = (uint32_t *)mmap(NULL, ioRegion.length, 
 								prot, MAP_SHARED, fd, 0);
 			
 			if(ioRegion.ptr != MAP_FAILED) {
-				ADBG("IO mmap-ed pointer: 0x%x", (int)(size_t)ioRegion.ptr);
+// 				ADBG("IO mmap-ed pointer: 0x%x", (int)(size_t)ioRegion.ptr);
 			} else {
 				AERR("IO mmap failed with errno=%d", errno);
 				close(fd);
@@ -120,7 +120,7 @@ public:
 	int ioctl(unsigned long request, void *data = NULL)
 	{
 		int ret = ::ioctl(fd, request, data);
-		if(ret) {
+		if(ret < 0) {
 			ADBG("IOCTL failed, errno=%d", errno);
 		}
 		
@@ -175,6 +175,10 @@ bool EvrManager::ioConfig(int what)
 		}
 
 		ioRegion.write32(EVR_REG_CTRL, (1 << C_EVR_CTRL_MASTER_ENABLE));
+		
+		// sleep a while for the card to start operating
+// 		usleep(1000*1000);
+		sleep(1);
 		
 	} else if(what == IOCFG_TEST101) {
 		
@@ -284,19 +288,19 @@ LErr:
 				int widthLength = 16;
 				
 				if(argc < argc_used + 1) {
-					AINFO("Could set also: arg[%d]->prescalerLength", argc_used);
+// 					AINFO("Could set also: arg[%d]->prescalerLength", argc_used);
 				} else {
 					prescalerLength = ::atoi(argv[argc_used ++]);
 				}
 				
 				if(argc < argc_used + 1) {
-					AINFO("Could set also: arg[%d]->delayLength", argc_used);
+// 					AINFO("Could set also: arg[%d]->delayLength", argc_used);
 				} else {
 					delayLength = ::atoi(argv[argc_used ++]);
 				}
 				
 				if(argc < argc_used + 1) {
-					AINFO("Could set also: arg[%d]->widthLength", argc_used);
+// 					AINFO("Could set also: arg[%d]->widthLength", argc_used);
 				} else {
 					widthLength = ::atoi(argv[argc_used ++]);
 				}
