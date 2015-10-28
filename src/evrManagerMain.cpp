@@ -141,7 +141,7 @@ bool EvrManager::ioConfig(int what)
 {
 	bool ret = true;
 		
-	uint32_t regCtrl = ioRegion.read32(EVR_REG_CTRL);
+	
 	
 	if(what == IOCFG_INIT) {
 
@@ -174,10 +174,10 @@ bool EvrManager::ioConfig(int what)
 			return false;
 		}
 
-		ioRegion.write32(EVR_REG_CTRL, (1 << C_EVR_CTRL_MASTER_ENABLE));
+		uint32_t regCtrl = ioRegion.read32(EVR_REG_CTRL);		
+		ioRegion.write32(EVR_REG_CTRL, regCtrl | (1 << C_EVR_CTRL_MASTER_ENABLE));
 		
 		// sleep a while for the card to start operating
-// 		usleep(1000*1000);
 		sleep(1);
 		
 	} else if(what == IOCFG_TEST101) {
