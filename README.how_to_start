@@ -1,0 +1,194 @@
+================================================================================
+================================================================================
+                                HOW TO START
+================================================================================
+================================================================================
+
+
+For this EVR driver usage there exist some test scripts on the
+'scripts' directories of the test machines that can be
+used for different purposes, not just for the testing.
+However, using the raw commands in order to get used to them is encouraged.
+For this reason this short starter HOWTO was written.
+
+Software
+===========================
+
+For ordinary use two things are needed, the kernel module evrma.ko and
+the evrManager executable. They are located at:
+
+/afs/slac/g/lcls/package/linuxKernel_Modules/evrmaDriver/<version>/buildroot-2014.08-glibc-x86_64/evrma.ko
+/afs/slac/g/lcls/package/evrManager/<version>/buildroot-2014.08-glibc-x86_64/bin/evrManager
+
+At the time of this writing the only version that exists is 'master' which is the
+version used for current development.
+
+
+Kernel loading/unloading
+===========================
+
+To load the kernel type 'insmod evrma.ko' (with the proper path, of course), 
+to unload it 'rmmod evrma'. Unloading will fail if the module is used
+by any application.
+
+Sometimes when there are many VEVRs configured the
+easiest way to destroy them is just to unload/load the kernel module
+to get to a fresh start.
+
+For every card there appears a manager device /dev/evrXmng:
+/dev/evr0mng for the first card (at the moment, EVR230 on cpu-b084-pm01 and
+EVR300 on cpu-b084-pm04), /dev/evr1mng for the second card (at the moment, 
+SLAC card on cpu-b084-pm01).
+
+The manager devices can be accessed as root. The permissions
+can be changed if needed for access as a regular user.
+
+
+Initialization
+===========================
+
+The first command must be to initialize the HW (this is used only once after the
+kernel loading) for each card separately:
+
+    evrManager /dev/evrXmng init
+
+
+
+Creating VEVRs
+===========================
+
+Type:
+
+    evrManager /dev/evrXmng create <vevr_name>
+
+This will create a new VEVR. The <vevr_name> can virtually be
+any name but using the names that start with 'vevr' is recommended
+to avoid collision with other device names on the Linux
+system. There can exist up to 31 VEVRs per card.
+The device appears at /dev/<vevr_name>. The permissions should be
+changed so the non-root user can access them as well.
+
+Immediatelly after the creation the VEVR is already capable
+of processing the events. So, if no triggers are needed no
+more configuring needs to be done, the IOC can start using it.
+
+If the device is not needed anymore it can be destroyed:
+
+    evrManager /dev/evrXmng destroy <vevr_name>
+
+
+Configuring Triggers
+===========================
+
+Is done in 3 steps:
+
+- Allocating outputs.
+- Allocating pulse generators.
+- Connecting pulse generators to the outputs.
+
+Allocating Outputs
+---------------------
+
+The card has physical outputs that are mapped to the virtual outputs
+during the confguration phase. The physical outputs configuration can
+be viewed using the sysfs. In the case of the EVR300, for example, this
+is done by typing:
+
+    cat /sys/class/modac-mng/evr0mng/hw_info
+
+The result is something like that:
+...
+...
+output:
+OUT[0]=FP_UNIV[0],MAP=xx
+OUT[1]=FP_UNIV[1],MAP=xx
+OUT[2]=FP_UNIV[2],MAP=xx
+OUT[3]=FP_UNIV[3],MAP=xx
+OUT[4]=FP_UNIV[4],MAP=xx
+OUT[5]=FP_UNIV[5],MAP=xx
+OUT[6]=FP_UNIV[6],MAP=xx
+OUT[7]=FP_UNIV[7],MAP=xx
+OUT[8]=FP_UNIV[8],MAP=xx
+OUT[9]=FP_UNIV[9],MAP=xx
+OUT[10]=FP_UNIV[10],MAP=xx
+OUT[11]=FP_UNIV[11],MAP=xx
+OUT[12]=FP_UNIV[12],MAP=xx
+OUT[13]=FP_UNIV[13],MAP=xx
+OUT[14]=FP_UNIV[14],MAP=xx
+OUT[15]=FP_UNIV[15],MAP=xx
+
+So, it is visible that 16 universal outputs are present.
+The physical index reference needed is the number in OUT[index].
+Try to do this also for the EVR230 and the SLAC card
+to see the result!
+
+Now, the outputs can be allocated. Each 'alloc' command
+creates the next virtual index. Type for example:
+
+    evrManager /dev/evrXmng alloc <vevr_name> output 0
+    evrManager /dev/evrXmng alloc <vevr_name> output 5
+    evrManager /dev/evrXmng alloc <vevr_name> output 3
+
+This will create:
+
+- A virtual output index 0, corresponds to OUT[0].
+- A virtual output index 1, corresponds to OUT[5].
+- A virtual output index 2, corresponds to OUT[3].
+
+
+
+Allocating Pulse Generators
+------------------------------
+
+Together with the output info the command:
+
+    cat /sys/class/modac-mng/evr0mng/hw_info
+
+also shows the pulse generator configuration (available
+physical pulse generators with their properties are shown).
+
+To allocate a pulse generator, type:
+
+    evrManager /dev/evrXmng alloc <vevr_name> pulsegen
+
+If 3 of them are needed the command should be repeated 3 times
+which will create virtual default pulse generators indexed 0, 1 and 2.
+The command also accepts arguments to choose from different
+pulse generators (prescaler, width or delay bit width can be
+requested) but this is out of scope of this starter HOWTO.
+
+
+
+Connecting Pulse Generators to the Outputs
+-------------------------------------------
+
+Type:
+
+    evrManager /dev/evrXmng output <vevr_name> 1 P 0
+
+This will connect the just allocated virtual output index 1
+to the just allocated virtual pulse generator number 0.
+
+When using the EDM screens the Trigger index means the 
+virtual pulse generator index. So, for this case on
+the "Trigger Diags" screen the "Trigger Selection" number 0
+will be used. The physical output on the EVR300 that will
+be controlled is the OUT[5] (because this is the virtual
+output indexed 1).
+
+
+
+
+Notes
+===========================
+
+- Once allocated, it is not possible to free the outputs or pulse generators.
+  If a different configuration is needed the VEVR should be destroyed
+  first and then re-created and re-allocated.
+
+- Connecting a different pulse generator to a given output can be
+  done any number of times, no VEVR destroy/create is needed.
+
+- If the VEVR is in use (is opened by one or more applications) its
+  configuration can not be changed at all.
+
