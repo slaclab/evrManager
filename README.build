@@ -9,9 +9,7 @@ The following variables should be changed to match your system configuration:
 Building
 ==========
 
-Change dir to build-xxx and type:
+Change dir to build-xxx and type (target = all, clean, install, uninstall):
 
-	make [target] [INSTALL_LOCATION=path_to_location] [KERNEL_MODULE_EVRMA=path_to_kernel]
+	make [target]
 	
-Note that this enables an alternative way of setting INSTALL_LOCATION and
-KERNEL_MODULE_EVRMA.
