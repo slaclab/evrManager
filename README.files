@@ -1,0 +1,36 @@
+Directories "build-*"
+=====================
+
+Contains the make files needed to build the executable on different platforms.
+
+
+
+
+
+ 
+Directory "src"
+=====================
+
+Contains files needed to build the executable.
+
+
+
+evrManagerMain.cpp
+------------------
+
+The code of the evr manager.
+
+
+utils.h
+-------
+
+Auxiliary general utilities (endianess, debugging).
+
+
+
+Makefile.common
+---------------
+
+Platform independent Makefile used for building.
+
+
