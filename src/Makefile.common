@@ -31,7 +31,7 @@ $(EVR_MANAGER): $(patsubst %.cpp,%.o,$(SRC))
 	@echo "  LD   " $@
 
 .PHONY:	install
-install:
+install: all
 	mkdir -p $(INSTALL_LOCATION)/$(INSTALL_BIN_DIR)
 	cp -p $(EVR_MANAGER) $(INSTALL_LOCATION)/$(INSTALL_BIN_DIR)
 

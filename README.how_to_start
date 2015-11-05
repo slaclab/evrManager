@@ -187,8 +187,9 @@ Notes
   first and then re-created and re-allocated.
 
 - Connecting a different pulse generator to a given output can be
-  done any number of times, no VEVR destroy/create is needed.
+  done any number of times, no VEVR destroy/create is needed for making changes.
 
 - If the VEVR is in use (is opened by one or more applications) its
-  configuration can not be changed at all.
+  configuration (allocating, destroying, setting
+  the output's pulse generator) can not be changed at all.
 
