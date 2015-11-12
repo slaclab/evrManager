@@ -43,8 +43,6 @@ struct IoRegion {
 
 enum {
 	IOCFG_INIT,
-	IOCFG_TESTS = 100,
-	IOCFG_TEST101 = 101
 };
 
 class EvrManager {
@@ -179,11 +177,7 @@ bool EvrManager::ioConfig(int what)
 		
 		// sleep a while for the card to start operating
 		sleep(1);
-		
-	} else if(what == IOCFG_TEST101) {
-		
-		ioRegion.write32(EVR_REG_CTRL, 0);
-		
+
 	}
 	
 	return ret;
@@ -396,68 +390,6 @@ LErr:
 		} else if(command == "init") {
 			
 			ret = manager.ioConfig(IOCFG_INIT);
-			
-		} else if(command == "sleep") {
-			
-			// sleep a lot for the application to stay alive and keep the MNG_DEV open
-			sleep(10000);
-				
-		} else if(command == "test") {
-			
-			int testNum;
-			
-			if(argc < argc_used + 1) {
-				AERR("arg[%d]->testNum", argc_used);
-				throw std::runtime_error("error");
-			} else {
-				testNum = ::atoi(argv[argc_used ++]);
-			}
-
-			if(testNum == 9997) {
-				
-				ADBG("test the VIRT_DEV id query");
-				
-				if(argc < argc_used + 1) {
-					// all commands need this at the moment
-					AERR("arg[%d]->virtDevName", argc_used);
-					goto LErr;
-				}
-				
-				std::string virtDevName = argv[argc_used ++];
-				
-				AINFO("OBTAINED ID=%d", manager.getVirtDevId(virtDevName));
-				
-			} else if(testNum == 9998) {
-
-				ADBG("test the VIRT_DEV creation");
-				
-				if(argc < argc_used + 1) {
-					// all commands need this at the moment
-					AERR("arg[%d]->virtDevName", argc_used);
-					goto LErr;
-				}
-				
-				std::string virtDevName = argv[argc_used ++];
-				
-				struct mngdev_ioctl_vdev_ids vDevData = {
-					0, // auto choose
-					"",
-				};
-				
-				strncpy(vDevData.name, virtDevName.c_str(), sizeof(vDevData.name));
-				
-				ret = manager.ioctl(MNG_DEV_IOC_CREATE, 
-						&vDevData) == 0;
-			
-				if(!ret) {
-					AERR("Virtual dev %s failed: '%s', %d", "creation", vDevData.name, vDevData.id);
-					AERR("errno=%d", errno);
-					throw std::runtime_error("error");
-				}
-				
-			} else if(testNum >= IOCFG_TESTS) {
-				ret = manager.ioConfig(testNum);
-			}
 			
 		} else {
 			AERR("Unknown cmd: %s", command.c_str());
