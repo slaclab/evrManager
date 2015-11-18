@@ -1,7 +1,10 @@
  Release Notes for the evrManager package
 -------------------------------------------
 
-evrma-R1-0-p3: 2015-11-13 S. Gruden
+evrManager-R1-0-p4: 2015-11-18 S. Gruden
+	* Path changes.
+
+evrManager-R1-0-p3: 2015-11-13 S. Gruden
 	* cleanup (removed obsolete debug code)
 
 evrManager-R1-0-p2: 2015-11-09 S. Gruden
