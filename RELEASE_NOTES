@@ -1,6 +1,9 @@
  Release Notes for the evrManager package
 -------------------------------------------
 
+evrManager-R1-0-p6: 2016-04-19 K. Kim
+	* build against evrmaDriver-R1-0-p6
+
 evrManager-R1-0-p4: 2015-11-18 S. Gruden
 	* Path changes.
 
