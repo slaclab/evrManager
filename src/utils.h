@@ -19,7 +19,7 @@
 
 #define cpu_to_be16(x) be16_to_cpu(x)
 #define cpu_to_be32(x) be32_to_cpu(x)
-
+#define bswap32(x)     be32_to_cpu(x)
 
 #define ADBG(FORMAT, ...) printf("DBG: " FORMAT "\n", ## __VA_ARGS__)
 #define AINFO(FORMAT, ...) printf("INFO: " FORMAT "\n", ## __VA_ARGS__)

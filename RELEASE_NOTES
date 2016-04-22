@@ -3,6 +3,7 @@
 
 evrManager-R1-0-p6: 2016-04-19 K. Kim
 	* build against evrmaDriver-R1-0-p6
+	* add up version command to print out firmware version
 
 evrManager-R1-0-p4: 2015-11-18 S. Gruden
 	* Path changes.

@@ -126,6 +126,7 @@ public:
 	}
 	
 	bool ioConfig(int what);
+	bool ioPrtVersion(void);
 
 private:
 	
@@ -184,6 +185,27 @@ bool EvrManager::ioConfig(int what)
 }
 
 
+bool EvrManager::ioPrtVersion(void)
+{
+	bool ret = false;
+
+	uint32_t fw_ver[2];
+
+	fw_ver[0] = ioRegion.read32(EVR_REG_FW_VERSION);
+	fw_ver[1] = ioRegion.read32(EVR_REG_FW_VERSION_SLAC);
+
+	printf("FW_VERSION: 0x%08X", fw_ver[0]);
+	if(fw_ver[1]) {
+		printf(", SLAC FW_VERION: 0x%08X\n", bswap32(fw_ver[1]));
+	} else {
+		printf("\n");
+	}
+
+
+	return ret;	
+}
+
+
 bool run(int argc, const char *argv[])
 {
 	bool ret = false;
@@ -208,7 +230,7 @@ LErr:
 		
 		EvrManager manager(mngDevNodeName);
 		
-		if(command == "init" || command == "sleep") {
+		if(command == "init" || command == "version" || command == "sleep") {
 			// no virt_DEV param
 		} else {
 
@@ -390,6 +412,10 @@ LErr:
 		} else if(command == "init") {
 			
 			ret = manager.ioConfig(IOCFG_INIT);
+
+		} else if(command == "version") {
+		
+			ret = manager.ioPrtVersion();
 			
 		} else {
 			AERR("Unknown cmd: %s", command.c_str());
