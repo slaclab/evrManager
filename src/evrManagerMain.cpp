@@ -196,13 +196,14 @@ bool EvrManager::ioPrtVersion(void)
 	fw_ver[0] = ioRegion.read32(EVR_REG_FW_VERSION);
 	fw_ver[1] = ioRegion.read32(EVR_REG_FW_VERSION_SLAC);
 
-	printf("FW_VERSION: 0x%08X", fw_ver[0]);
+	printf("FW_VERSION: 0x%08X\n", fw_ver[0]);
+/*
 	if(fw_ver[1]) {
 		printf(", SLAC FW_VERION: 0x%08X\n", bswap32(fw_ver[1]));
 	} else {
 		printf("\n");
 	}
-
+*/
 
 	return ret;	
 }
