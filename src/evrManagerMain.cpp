@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "linux-evrma.h"
 #include "linux-evr-regs.h"
+#include "PromLoad.h"
 
 namespace {
 
@@ -127,6 +128,7 @@ public:
 	
 	bool ioConfig(int what);
 	bool ioPrtVersion(void);
+	bool promLoad(string filePath);
 
 private:
 	
@@ -206,6 +208,17 @@ bool EvrManager::ioPrtVersion(void)
 }
 
 
+bool EvrManager:: promLoad(string filePath)
+{
+	bool ret = false;
+
+	printf("%p %s\n", ioRegion.ptr, filePath.c_str());
+	ret = PromLoad(ioRegion.ptr, filePath);
+
+	return ret;
+}
+
+
 bool run(int argc, const char *argv[])
 {
 	bool ret = false;
@@ -244,7 +257,7 @@ LErr:
 			
 			virtNumber = manager.getVirtDevId(virtDevName);
 			
-			if(command == "create") {
+			if(command == "create" || command == "promload") {
 				if(virtNumber > 0) {
 					// will leave as this but will fail later because
 				}
@@ -255,9 +268,13 @@ LErr:
 				}
 			}
 		}
+
+		if(command == "promload") {
+
+			ret = manager.promLoad(virtDevName);
 		
 		
-		if(command == "create") {
+		} else if(command == "create") {
 
 			struct mngdev_ioctl_vdev_ids vDevData = {
 				virtNumber,

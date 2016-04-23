@@ -16,7 +16,10 @@ LDLIBS  +=  -lstdc++ -lpthread -lrt -lm
 
 CLEANEXTS   = o a d
 
-SRC =     evrManagerMain.cpp
+SRC :=     evrManagerMain.cpp
+SRC +=     PromLoad.cpp
+SRC +=     EvrCardG2Prom.cpp
+SRC +=     McsRead.cpp
 
 EVR_MANAGER := evrManager
 INSTALL_BIN_DIR  = bin
