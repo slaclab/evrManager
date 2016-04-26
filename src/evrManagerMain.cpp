@@ -244,7 +244,8 @@ LErr:
 		
 		EvrManager manager(mngDevNodeName);
 		
-		if(command == "init" || command == "version" || command == "sleep") {
+		if(command == "init" || command == "version" || command == "sleep" 
+		   || command == "promload" ) {
 			// no virt_DEV param
 		} else {
 
@@ -258,7 +259,7 @@ LErr:
 			
 			virtNumber = manager.getVirtDevId(virtDevName);
 			
-			if(command == "create" || command == "promload") {
+			if(command == "create") {
 				if(virtNumber > 0) {
 					// will leave as this but will fail later because
 				}
