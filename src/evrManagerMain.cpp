@@ -129,6 +129,7 @@ public:
 	bool ioConfig(int what);
 	bool ioPrtVersion(void);
 	bool promLoad(string filePath);
+	bool ioPrtTemperature(void);
 
 private:
 	
@@ -209,7 +210,7 @@ bool EvrManager::ioPrtVersion(void)
 }
 
 
-bool EvrManager:: promLoad(string filePath)
+bool EvrManager::promLoad(string filePath)
 {
 	bool ret = false;
 
@@ -218,6 +219,37 @@ bool EvrManager:: promLoad(string filePath)
 
 	return ret;
 }
+
+bool EvrManager::ioPrtTemperature(void)
+{
+	bool ret = false;
+
+	uint32_t raw_temp[2];
+	double   temp[2];
+	int      i;
+
+	if(!ioRegion.read32(EVR_REG_FW_VERSION_SLAC)) {
+		ret = true;
+		printf("The temperature register is not available for this module\n");
+		return ret;
+	}
+
+	raw_temp[0] = bswap32(ioRegion.read32(AXIXADC_REG_TEMPERATURE))>>4;
+	raw_temp[1] = bswap32(ioRegion.read32(AXIXADC_REG_MAXTEMPERATURE))>>4;
+
+
+	for(i=0;i<2;i++) temp[i] = double(unsigned(raw_temp[i])) * (503.975/4096.) - 273.15;
+
+	printf("Temperature: (current) %6.2lf degC / 0x%04x, (max) %6.2lf degC / 0x%04x\n", 
+	temp[0], raw_temp[0], temp[1], raw_temp[1]);
+
+	
+	
+
+	return ret;
+}
+
+
 
 
 bool run(int argc, const char *argv[])
@@ -245,7 +277,7 @@ LErr:
 		EvrManager manager(mngDevNodeName);
 		
 		if(command == "init" || command == "version" || command == "sleep" 
-		   || command == "promload" ) {
+		   || command == "promload" || command == "temperature" ) {
 			// no virt_DEV param
 		} else {
 
@@ -274,7 +306,10 @@ LErr:
 		if(command == "promload") {
 
 			ret = manager.promLoad(virtDevName);
-		
+
+		} else if(command == "temperature") {
+
+			ret = manager.ioPrtTemperature();	
 		
 		} else if(command == "create") {
 
