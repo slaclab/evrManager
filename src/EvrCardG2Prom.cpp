@@ -443,8 +443,12 @@ uint32_t EvrCardG2Prom::genReqWord(uint16_t cmd, uint16_t data) {
 
 //! Generic FLASH write Command 
 void EvrCardG2Prom::writeToFlash(uint32_t address, uint16_t cmd, uint16_t data) {
+   asm("nop");//no operation function     
+   
    // Set the data bus
    *((uint32_t*)mapData) = genReqWord(cmd,data);
+   
+   asm("nop");//no operation function     
    
    // Set the address bus and initiate the transfer
    *((uint32_t*)mapAddress) = (~READ_MASK & address);
@@ -454,11 +458,17 @@ void EvrCardG2Prom::writeToFlash(uint32_t address, uint16_t cmd, uint16_t data) 
 uint16_t EvrCardG2Prom::readFlash(uint32_t address, uint16_t cmd) {
    uint32_t readReg;
       
+   asm("nop");//no operation function        
+      
    // Set the data bus
    *((uint32_t*)mapData) = genReqWord(cmd,0xFF);
    
+   asm("nop");//no operation function     
+   
    // Set the address bus and initiate the transfer
    *((uint32_t*)mapAddress) = (READ_MASK | address);   
+   
+   asm("nop");//no operation function     
    
    // Read the data register
    readReg = *((uint32_t*)mapRead);
