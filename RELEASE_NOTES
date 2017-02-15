@@ -1,5 +1,11 @@
  Release Notes for the evrManager package
 -------------------------------------------
+R1.0.7:  Feb. 15, 2017: Ernest Williams (ernesto)
+         * Refactor the build to be more consistent with
+           non-EPICS package builds.
+         * Fix Makefile to use correct compiler:
+           Define "CXX" instead of "CC"
+         * Build against kernel API, evrmaDriver version R1.0.7
 
 evrManager-R1-0-p6: 2016-04-19 K. Kim
 	* build against evrmaDriver-R1-0-p6

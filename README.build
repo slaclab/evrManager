@@ -3,13 +3,13 @@ The following variables should be changed to match your system configuration:
 - KERNEL_MODULE_EVRMA in Makefile.common at src/ should point
   to the evrmaDriver directory.
 
-- INSTALL_LOCATION in Makefile at build-buildroot-2014.08-x86_64 and
-  build-rhel6-linux-x86_64 define the path where the installed files will reside.
+- INSTALL_LOCATION in Makefile at build/buildroot-2014.08-x86_64 and
+  build/rhel6-linux-x86_64 define the path where the installed files will reside.
 
 Building
 ==========
 
-Change dir to build-xxx and type (target = all, clean, install, uninstall):
+Change dir to build/<ARCH> and type (target = all, clean, install, uninstall):
 
 	make [target]
 	

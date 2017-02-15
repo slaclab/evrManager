@@ -1,13 +1,13 @@
 ### NOTE: SETTABLE_CONFIG
-KERNEL_MODULE_EVRMA ?= /afs/slac/g/lcls/package/linuxKernel_Modules/evrmaDriver/evrmaDriver-R1-0-p6
+KERNEL_MODULE_EVRMA ?= /afs/slac/g/lcls/package/linuxKernel_Modules/evrmaDriver/R1.0.7
 
 XCROSS_HOME ?= 
 
-SRC_DIR := ../src
+SRC_DIR := ../../src
 
-CC=$(XCROSS_HOME)g++
+CXX=$(XCROSS_HOME)g++
 
-CXXFLAGS := -Wall -fPIC -O3
+CXXFLAGS := -v -Wall -fPIC -O3
 CPPFLAGS := -I$(KERNEL_MODULE_EVRMA)/src
 CPPFLAGS += -I$(SRC_DIR)
 
@@ -29,7 +29,7 @@ INSTALL_BIN_DIR  = bin
 all:	$(EVR_MANAGER)
 
 $(EVR_MANAGER): $(patsubst %.cpp,%.o,$(SRC))
-	@$(CC) $(patsubst %.cpp,%.o,$(SRC)) -o $(EVR_MANAGER)
+	@$(CXX) $(patsubst %.cpp,%.o,$(SRC)) -o $(EVR_MANAGER)
 	@echo "  LD   " $@
 
 .PHONY:	install
