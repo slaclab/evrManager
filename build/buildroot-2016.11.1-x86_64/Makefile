@@ -1,5 +1,5 @@
 ### NOTE: SETTABLE_CONFIG
-INSTALL_LOCATION ?= ../../buildroot-2016.11.1
+INSTALL_LOCATION ?= ../../buildroot-2016.11.1-x86_64
 
 # Location of BuildRoot home for X86_64 architecture:
 BUILDROOT_X86_HOME=/afs/slac/package/linuxRT/buildroot-2016.11.1
