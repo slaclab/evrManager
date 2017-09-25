@@ -1,5 +1,8 @@
  Release Notes for the evrManager package
 -------------------------------------------
+R1.0.8:  Sep. 25, 2017: Kukhee Kim (khkim)
+         * build against evrmaDriver R1.0.8 and evrma R1.0.8
+
 R1.0.7:  Feb. 15, 2017: Ernest Williams (ernesto)
          * Refactor the build to be more consistent with
            non-EPICS package builds.
