@@ -105,7 +105,7 @@ bool EvrCardG2Prom::checkFirmwareVersion ( ) {
 //! Check if file exist (true=exists)
 bool EvrCardG2Prom::fileExist ( ) {
   ifstream ifile(filePath.c_str());
-  return ifile;
+  return (bool) ifile;
 }
 
 //! Print Power Cycle Reminder
