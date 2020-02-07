@@ -1,5 +1,5 @@
 ### NOTE: SETTABLE_CONFIG
-KERNEL_MODULE_EVRMA ?= /afs/slac/g/lcls/package/linuxKernel_Modules/evrmaDriver/R1.0.8
+KERNEL_MODULE_EVRMA ?= /afs/slac/g/lcls/package/linuxKernel_Modules/evrmaDriver/R1.0.9
 
 XCROSS_HOME ?= 
 
