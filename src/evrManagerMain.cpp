@@ -177,7 +177,7 @@ bool EvrManager::ioConfig(int what)
 		}
 
 		uint32_t regCtrl = ioRegion.read32(EVR_REG_CTRL);		
-		ioRegion.write32(EVR_REG_CTRL, regCtrl | (1 << C_EVR_CTRL_MASTER_ENABLE));
+		ioRegion.write32(EVR_REG_CTRL, regCtrl | (1 << C_EVR_CTRL_MASTER_ENABLE) | (1 << C_EVR_CTRL_RXLOOPBACK));
 		
 		// sleep a while for the card to start operating
 		sleep(1);

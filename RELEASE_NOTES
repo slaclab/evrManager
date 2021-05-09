@@ -1,5 +1,9 @@
  Release Notes for the evrManager package
 -------------------------------------------
+R1.0.9-p1  May 8, 2021: Kukhee Kim (khkim)
+         * enable RF loopback to allow daisy chain of the timing fiber
+         * build against evrma kernel driver R1.0.9
+
 R1.0.9-br  May 8, 2021: Kukhee Kim (khkim)
          * branch out from R1.0.9
 
