@@ -1,5 +1,8 @@
  Release Notes for the evrManager package
 -------------------------------------------
+R1.0.9-br  May 8, 2021: Kukhee Kim (khkim)
+         * branch out from R1.0.9
+
 R1.0.9:  Feb 02, 2020:  Kukhee Kim (khkim)
          * build against evrmaDriver R1.0.9, evrma R1.0.9 and support buildroot-2019.08
 
