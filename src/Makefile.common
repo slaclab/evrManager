@@ -1,5 +1,14 @@
 ### NOTE: SETTABLE_CONFIG
-KERNEL_MODULE_EVRMA ?= /afs/slac/g/lcls/package/linuxKernel_Modules/evrmaDriver/R1.0.10
+
+ifeq ($(PACKAGE_TOP),)
+ifneq ($(EPICS_PACKAGE_TOP),)
+PACKAGE_TOP=$(EPICS_PACKAGE_TOP)
+else
+$(error EPICS_PACKAGE_TOP or PACKAGE_TOP must be provided on the command line or in a Makefile)
+endif
+endif
+
+KERNEL_MODULE_EVRMA ?= $(PACKAGE_TOP)/linuxKernel_Modules/evrmaDriver/R1.0.12
 
 XCROSS_HOME ?= 
 
